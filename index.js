@@ -15,14 +15,14 @@ const client = new Client({
 // غيّر أسماء الرتب لتطابق أسماءها بالضبط في سيرفرك
 const RANKS = {
   '🎯': 'Casual',
-  '🟤': 'Copper',
-  '🥉': 'Bronze',
-  '🥈': 'Silver',
-  '🥇': 'Gold',
-  '💎': 'Platinum',
-  '🟢': 'Emerald',
-  '💠': 'Diamond',
-  '👑': 'Champion',
+  'r6_copper': 'Copper',
+  'r6_bronze': 'Bronze',
+  'r6_silver': 'Silver',
+  'r6_gold': 'Gold',
+  'r6_platinum': 'Platinum',
+  'r6_emerald': 'Emerald',
+  'r6_diamond': 'Diamond',
+  'r6_champion': 'Champion',
 };
 
 // ID الرسالة اللي سيتفاعل معها الأعضاء — يتحدد بعد إرسال !sendranks
@@ -50,14 +50,14 @@ client.on('messageCreate', async (message) => {
       .setDescription(
         'تفاعل بالإيموجي المناسب لرتبتك وراح تنحط الرتبة عليك تلقائياً!\n\n' +
         '🎯 — Casual\n' +
-        '🟤 — Copper\n' +
-        '🥉 — Bronze\n' +
-        '🥈 — Silver\n' +
-        '🥇 — Gold\n' +
-        '💎 — Platinum\n' +
-        '🟢 — Emerald\n' +
-        '💠 — Diamond\n' +
-        '👑 — Champion'
+        '<:r6_copper:1487845670382469250> — Copper\n' +
+        '<:r6_bronze:1487845778637721752> — Bronze\n' +
+        '<:r6_silver:1487845814276456518> — Silver\n' +
+        '<:r6_gold:1487845830911332555> — Gold\n' +
+        '<:r6_platinum:1487845842005004419> — Platinum\n' +
+        '<:r6_emerald:1487845850431488040> — Emerald\n' +
+        '<:r6_diamond:1487845860791287871> — Diamond\n' +
+        '<:r6_champion:1487845885978345472> — Champion'
       )
       .setFooter({ text: 'يمكنك تغيير رتبتك في أي وقت' });
 
@@ -65,7 +65,18 @@ client.on('messageCreate', async (message) => {
     RANKS_MESSAGE_ID = sent.id;
 
     // أضف الإيموجيات تلقائياً
-    for (const emoji of Object.keys(RANKS)) {
+    const emojisToReact = [
+      '🎯',
+      '1487845670382469250',
+      '1487845778637721752',
+      '1487845814276456518',
+      '1487845830911332555',
+      '1487845842005004419',
+      '1487845850431488040',
+      '1487845860791287871',
+      '1487845885978345472',
+    ];
+    for (const emoji of emojisToReact) {
       await sent.react(emoji);
     }
 
@@ -74,12 +85,26 @@ client.on('messageCreate', async (message) => {
   }
 });
 
+// ─── الـ ID لكل رتبة ──────────────────────────────────────────────────────────
+const EMOJI_ID_TO_RANK = {
+  '🎯': 'Casual',
+  '1487845670382469250': 'Copper',
+  '1487845778637721752': 'Bronze',
+  '1487845814276456518': 'Silver',
+  '1487845830911332555': 'Gold',
+  '1487845842005004419': 'Platinum',
+  '1487845850431488040': 'Emerald',
+  '1487845860791287871': 'Diamond',
+  '1487845885978345472': 'Champion',
+};
+
 // ─── عند إضافة reaction ───────────────────────────────────────────────────────
 client.on('messageReactionAdd', async (reaction, user) => {
   if (user.bot) return;
   if (reaction.message.id !== RANKS_MESSAGE_ID) return;
 
-  const roleName = RANKS[reaction.emoji.name];
+  const key = reaction.emoji.id || reaction.emoji.name;
+  const roleName = EMOJI_ID_TO_RANK[key];
   if (!roleName) return;
 
   const guild = reaction.message.guild;
@@ -92,7 +117,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
   }
 
   // أزل رتب اللعبة الثانية قبل ما تضيف الجديدة
-  const rankRoles = Object.values(RANKS);
+  const rankRoles = Object.values(EMOJI_ID_TO_RANK);
   for (const rName of rankRoles) {
     const r = guild.roles.cache.find(x => x.name === rName);
     if (r && member.roles.cache.has(r.id)) {
@@ -109,7 +134,8 @@ client.on('messageReactionRemove', async (reaction, user) => {
   if (user.bot) return;
   if (reaction.message.id !== RANKS_MESSAGE_ID) return;
 
-  const roleName = RANKS[reaction.emoji.name];
+  const key = reaction.emoji.id || reaction.emoji.name;
+  const roleName = EMOJI_ID_TO_RANK[key];
   if (!roleName) return;
 
   const guild = reaction.message.guild;
