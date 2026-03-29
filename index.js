@@ -14,6 +14,7 @@ const client = new Client({
 // ─── الرتب والإيموجيات ────────────────────────────────────────────────────────
 // غيّر أسماء الرتب لتطابق أسماءها بالضبط في سيرفرك
 const RANKS = {
+  '🎯': 'Casual',
   '🟤': 'Copper',
   '🥉': 'Bronze',
   '🥈': 'Silver',
@@ -47,6 +48,7 @@ client.on('messageCreate', async (message) => {
       .setTitle('🎮 اختر رتبتك في Rainbow Six Siege')
       .setDescription(
         'تفاعل بالإيموجي المناسب لرتبتك وراح تنحط الرتبة عليك تلقائياً!\n\n' +
+        '🎯 — Casual\n' +
         '🟤 — Copper\n' +
         '🥉 — Bronze\n' +
         '🥈 — Silver\n' +
