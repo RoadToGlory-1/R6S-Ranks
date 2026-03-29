@@ -57,8 +57,7 @@ client.on('messageCreate', async (message) => {
         '💎 — Platinum\n' +
         '🟢 — Emerald\n' +
         '💠 — Diamond\n' +
-        '💠 — Diamond\n' +
-        '👑 — Champion'
+        '👑 — Champion\n' +
       )
       .setFooter({ text: 'يمكنك تغيير رتبتك في أي وقت' });
 
