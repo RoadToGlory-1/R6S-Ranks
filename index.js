@@ -20,6 +20,7 @@ const RANKS = {
   '🥈': 'Silver',
   '🥇': 'Gold',
   '💎': 'Platinum',
+  '🟢': 'Emerald',
   '💠': 'Diamond',
   '👑': 'Champion',
 };
@@ -54,6 +55,8 @@ client.on('messageCreate', async (message) => {
         '🥈 — Silver\n' +
         '🥇 — Gold\n' +
         '💎 — Platinum\n' +
+        '🟢 — Emerald\n' +
+        '💠 — Diamond\n' +
         '💠 — Diamond\n' +
         '👑 — Champion'
       )
